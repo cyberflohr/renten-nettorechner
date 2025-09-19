@@ -19,6 +19,8 @@ describe('CalculatorResultsTable', () => {
       netPension: 1678.7,
       breakEvenAge: 67,
       netDifferenceToStandard: 0, // Standard case
+      taxableIncome: 1000,
+      taxationPercentage: 84,
     },
     {
       monthsEarly: 24,
@@ -30,6 +32,8 @@ describe('CalculatorResultsTable', () => {
       netPension: 1567,
       breakEvenAge: 71,
       netDifferenceToStandard: -111.7, // 1567 - 1678.7
+      taxableIncome: 900,
+      taxationPercentage: 84,
     },
   ];
 

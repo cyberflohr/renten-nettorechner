@@ -6,12 +6,11 @@ import type { UserInput, CalculationResult } from '@/types';
 
 describe('Calculation Store', () => {
   let store: ReturnType<typeof useCalculationStore>;
-  let calculationServiceSpy: ReturnType<typeof vi.spyOn>;
+  let calculationServiceSpy: any;
 
   beforeEach(() => {
     setActivePinia(createPinia());
     store = useCalculationStore();
-    // Mock the CalculationService to control its behavior in tests
     calculationServiceSpy = vi.spyOn(CalculationService.prototype, 'calculate');
   });
 
@@ -27,22 +26,29 @@ describe('Calculation Store', () => {
     const input: UserInput = {
       birthday: '1990-01-01',
       expectedPension: 1000,
-      taxClass: 'I',
-      state: 'Berlin',
-      churchTax: false,
-      insuranceStatus: 'Standard',
+      currentPensionEntitlement: 900,
+      statementDate: '2023-01-01',
     };
 
-    // Mock the calculate method to return a predefined result
-    const mockResults: CalculationResult[] = [{ monthsEarly: 0, grossPension: 1000, deductionEarlyRetirement: 0, pvContribution: 0, kvContribution: 0, tax: 0, netPension: 1000, breakEvenAge: 67 }];
+    const mockResults: CalculationResult[] = [{
+      monthsEarly: 0,
+      grossPension: 1000,
+      deductionEarlyRetirement: 0,
+      pvContribution: 0,
+      kvContribution: 0,
+      tax: 0,
+      netPension: 1000,
+      breakEvenAge: 67,
+      netDifferenceToStandard: 0,
+      taxableIncome: 850,
+      taxationPercentage: 84
+    }];
     calculationServiceSpy.mockResolvedValue(mockResults);
 
     store.setUserInput(input);
 
     expect(store.userInput).toEqual(input);
-    // Ensure calculate was called
     expect(calculationServiceSpy).toHaveBeenCalledWith(input);
-    // Wait for the async action to complete
     await vi.waitFor(() => {
       expect(store.results).toEqual(mockResults);
       expect(store.isLoading).toBe(false);
@@ -53,20 +59,30 @@ describe('Calculation Store', () => {
     const input: UserInput = {
       birthday: '1990-01-01',
       expectedPension: 1000,
-      taxClass: 'I',
-      state: 'Berlin',
-      churchTax: false,
-      insuranceStatus: 'Standard',
+      currentPensionEntitlement: 900,
+      statementDate: '2023-01-01',
     };
-    store.userInput = input; // Manually set userInput for this test
+    store.userInput = input;
 
-    const mockResults: CalculationResult[] = [{ monthsEarly: 0, grossPension: 1000, deductionEarlyRetirement: 0, pvContribution: 0, kvContribution: 0, tax: 0, netPension: 1000, breakEvenAge: 67 }];
+    const mockResults: CalculationResult[] = [{
+      monthsEarly: 0,
+      grossPension: 1000,
+      deductionEarlyRetirement: 0,
+      pvContribution: 0,
+      kvContribution: 0,
+      tax: 0,
+      netPension: 1000,
+      breakEvenAge: 67,
+      netDifferenceToStandard: 0,
+      taxableIncome: 850,
+      taxationPercentage: 84
+    }];
     calculationServiceSpy.mockResolvedValue(mockResults);
 
     const promise = store.calculateResults();
 
     expect(store.isLoading).toBe(true);
-    await promise; // Wait for the promise to resolve
+    await promise;
 
     expect(store.results).toEqual(mockResults);
     expect(store.isLoading).toBe(false);
@@ -77,12 +93,10 @@ describe('Calculation Store', () => {
     const input: UserInput = {
       birthday: '1990-01-01',
       expectedPension: 1000,
-      taxClass: 'I',
-      state: 'Berlin',
-      churchTax: false,
-      insuranceStatus: 'Standard',
+      currentPensionEntitlement: 900,
+      statementDate: '2023-01-01',
     };
-    store.userInput = input; // Manually set userInput for this test
+    store.userInput = input;
 
     const errorMessage = 'Calculation failed';
     calculationServiceSpy.mockRejectedValue(new Error(errorMessage));
@@ -90,7 +104,7 @@ describe('Calculation Store', () => {
     const promise = store.calculateResults();
 
     expect(store.isLoading).toBe(true);
-    await promise; // Wait for the promise to resolve
+    await promise;
 
     expect(store.results).toBeNull();
     expect(store.isLoading).toBe(false);
@@ -98,7 +112,7 @@ describe('Calculation Store', () => {
   });
 
   it('clearResults should clear results and error', () => {
-    store.results = [{ monthsEarly: 0, grossPension: 100, deductionEarlyRetirement: 0, pvContribution: 0, kvContribution: 0, tax: 0, netPension: 100, breakEvenAge: 67 }];
+    store.results = [{ monthsEarly: 0, grossPension: 100, deductionEarlyRetirement: 0, pvContribution: 0, kvContribution: 0, tax: 0, netPension: 100, breakEvenAge: 67, netDifferenceToStandard: 0, taxableIncome: 85, taxationPercentage: 84 }];
     store.error = 'Some error';
 
     store.clearResults();

@@ -63,9 +63,9 @@ onMounted(() => {
       <div class="results-container">
         <h2 v-if="calculationStore.isLoading">Berechne Ergebnisse...</h2>
         <h2 v-else-if="calculationStore.error" class="error-message">{{ calculationStore.error }}</h2>
-        <CalculatorResultsTable 
-          v-else-if="calculationStore.hasResults" 
-          :results="calculationStore.results" 
+        <CalculatorResultsTable
+          v-else-if="calculationStore.hasResults"
+          :results="calculationStore.results!"
         />
         <div v-else class="placeholder-container">
           <h2>Ergebnistabelle (Platzhalter)</h2>
