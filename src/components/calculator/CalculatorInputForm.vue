@@ -98,7 +98,6 @@ form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-width: 400px;
 }
 
 .form-group {

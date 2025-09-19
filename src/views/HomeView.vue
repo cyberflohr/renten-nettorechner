@@ -83,6 +83,7 @@ onMounted(() => {
 <style scoped>
 #app-layout {
   max-width: 960px;
+  margin: 0 auto;
   padding: 2rem;
   font-family: sans-serif;
 }
@@ -138,5 +139,24 @@ main {
 
 .form-actions button:hover {
   background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+  #app-layout {
+    padding: 1rem;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
 }
 </style>
