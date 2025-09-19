@@ -1,0 +1,144 @@
+/* app/src/assets/styles/main.scss */
+
+/* Globale CSS-Variablen (Theme) */
+:root {
+  --color-primary: #007bff;
+  --color-secondary: #6c757d;
+  --color-success: #28a745;
+  --color-danger: #dc3545;
+  --color-warning: #ffc107;
+  --color-info: #17a2b8;
+
+  --color-background: #ffffff;
+  --color-surface: #f8f9fa;
+  --color-text-primary: #212529;
+  --color-text-secondary: #6c757d;
+  --color-border: #dee2e6;
+
+  --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-size-base: 16px;
+  --font-size-lg: 1.25rem;
+  --font-size-sm: 0.875rem;
+  --font-weight-normal: 400;
+  --font-weight-bold: 700;
+  --line-height-base: 1.5;
+
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 3rem;
+
+  --border-radius: 0.25rem;
+  --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* CSS Reset und globale Basis-Stile */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Allgemeine Formular-Stile */
+input[type="date"],
+input[type="number"],
+select {
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-sm);
+  font-size: var(--font-size-base);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+label {
+  display: block;
+  margin-bottom: var(--spacing-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-secondary);
+}
+
+.form-group {
+  margin-bottom: var(--spacing-md);
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.checkbox-group input[type="checkbox"] {
+  margin-right: var(--spacing-xs);
+  width: auto; /* Override 100% width */
+}
+
+/* Allgemeine Tabellen-Stile */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--spacing-md);
+}
+
+th,
+td {
+  border: 1px solid var(--color-border);
+  padding: var(--spacing-sm);
+  text-align: left; /* Default to left, specific components can override */
+}
+
+th {
+  background-color: var(--color-surface);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+tr:nth-child(even) {
+  background-color: var(--color-surface);
+}
+
+/* Container-Stile */
+.input-form-container,
+.results-container {
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-lg);
+  background-color: var(--color-background);
+  box-shadow: var(--box-shadow);
+}
+
+.placeholder-container {
+  border: 2px dashed var(--color-border);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius);
+  background-color: var(--color-surface);
+  color: var(--color-text-secondary);
+}
+
+.error-message {
+  color: var(--color-danger);
+  font-weight: var(--font-weight-bold);
+}
+
+.disclaimer {
+  margin-top: var(--spacing-xl);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--color-warning);
+  background-color: #fff3cd; /* Specific light yellow for warning */
+  color: #856404; /* Dark yellow text */
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-sm);
+}
