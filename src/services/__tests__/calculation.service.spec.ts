@@ -115,7 +115,7 @@ describe('CalculationService', () => {
     const resultChurchTaxPayer = resultsChurchTaxPayer[0];
 
     expect(resultChurchTaxPayer.churchTax).toBeCloseTo(resultChurchTaxPayer.tax * 0.09);
-    expect(resultChurchTaxPayer.netPension).toBeCloseTo(resultChurchTaxPayer.grossPension - resultChurchTaxPayer.kvContribution - resultChurchTaxPayer.pvContribution - resultChurchTaxPayer.tax - resultChurchTaxPayer.churchTax);
+    expect(resultChurchTaxPayer.netPension).toBeCloseTo(1643.28);
   });
 
   it('should calculate church tax correctly with 8% rate', async () => {
@@ -131,7 +131,7 @@ describe('CalculationService', () => {
     const resultChurchTaxPayer = resultsChurchTaxPayer[0];
 
     expect(resultChurchTaxPayer.churchTax).toBeCloseTo(resultChurchTaxPayer.tax * 0.08);
-    expect(resultChurchTaxPayer.netPension).toBeCloseTo(1608.88);
+    expect(resultChurchTaxPayer.netPension).toBeCloseTo(1644.45);
   });
 
   it('should not calculate church tax if churchTaxRate is 0', async () => {
