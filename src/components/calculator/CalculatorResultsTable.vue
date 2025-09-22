@@ -15,7 +15,7 @@ defineProps<Props>();
     <table>
       <thead>
         <tr>
-          <th>Rentendatum</th>
+          <th>Rentenbeginn</th>
           <th>Monate früher</th>
           <th>Brutto-rente</th>
           <th>Frührenten-abschlag</th>
@@ -25,14 +25,14 @@ defineProps<Props>();
           <th>Besteuerungs-anteil</th>
           <th>Steuer</th>
           <th>Kirchensteuer</th>
-          <th>Netto-rente</th>
           <th>Break-Even Alter</th>
+          <th>Netto-rente</th>
           <th>Netto-differenz</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(result, index) in results" :key="index">
-          <td data-label="Rentendatum">{{ result.retirementDate }}</td>
+          <td data-label="Rentenbeginn">{{ result.retirementDate }}</td>
           <td data-label="Monate früher">{{ result.monthsEarly }}</td>
           <td data-label="Brutto-rente">{{ formatCurrency(result.grossPension) }}</td>
           <td data-label="Frührenten-abschlag">{{ formatCurrency(result.deductionEarlyRetirement) }}</td>
@@ -42,9 +42,9 @@ defineProps<Props>();
           <td data-label="Besteuerungs-anteil">{{ formatPercentage(result.taxationPercentage) }}</td>
           <td data-label="Steuer">{{ formatCurrency(result.tax) }}</td>
           <td data-label="Kirchensteuer">{{ formatCurrency(result.churchTax) }}</td>
-          <td data-label="Netto-rente">{{ formatCurrency(result.netPension) }}</td>
           <td data-label="Break-Even Alter">{{ result.breakEvenAge }}</td>
-          <td data-label="Netto-differenz">{{ formatCurrency(result.netDifferenceToStandard) }}</td>
+          <td data-label="Netto-rente" class="highlight-column">{{ formatCurrency(result.netPension) }}</td>
+          <td data-label="Netto-differenz" class="highlight-column">{{ formatCurrency(result.netDifferenceToStandard) }}</td>
         </tr>
       </tbody>
     </table>
@@ -75,6 +75,11 @@ th {
 
 tr:nth-child(even) {
   background-color: #f9f9f9;
+}
+
+.highlight-column {
+  background-color: #e0f7fa; /* Light blue background */
+  font-weight: bold;
 }
 
 @media (max-width: 768px) {
