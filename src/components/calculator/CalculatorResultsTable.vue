@@ -24,6 +24,7 @@ defineProps<Props>();
           <th>Zu versteuerndes-Einkommen</th>
           <th>Besteuerungs-anteil</th>
           <th>Steuer</th>
+          <th>Kirchensteuer</th>
           <th>Netto-rente</th>
           <th>Break-Even Alter</th>
           <th>Netto-differenz</th>
@@ -40,6 +41,7 @@ defineProps<Props>();
           <td data-label="Zu versteuerndes-Einkommen">{{ formatCurrency(result.taxableIncome) }}</td>
           <td data-label="Besteuerungs-anteil">{{ result.taxationPercentage }} %</td>
           <td data-label="Steuer">{{ formatCurrency(result.tax) }}</td>
+          <td data-label="Kirchensteuer">{{ formatCurrency(result.churchTax) }}</td>
           <td data-label="Netto-rente">{{ formatCurrency(result.netPension) }}</td>
           <td data-label="Break-Even Alter">{{ result.breakEvenAge }}</td>
           <td data-label="Netto-differenz">{{ formatCurrency(result.netDifferenceToStandard) }}</td>

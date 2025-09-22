@@ -14,6 +14,8 @@ const formData: UserInput = reactive({
   expectedPension: 0,
   currentPensionEntitlement: 0, // New field
   statementDate: '', // New field
+  hasChildren: false,
+  churchTaxRate: 0,
 });
 
 // Watch for changes from parent and update formData
@@ -90,6 +92,20 @@ const handleInputChange = () => {
       <input type="date" id="statementDate" v-model="formData.statementDate" required />
     </div>
 
+    <div class="form-group-inline">
+      <input type="checkbox" id="hasChildren" v-model="formData.hasChildren" />
+      <label for="hasChildren">Kinder vorhanden?</label>
+    </div>
+
+    <div class="form-group">
+      <label for="churchTaxRate">Kirchensteuer:</label>
+      <select id="churchTaxRate" v-model.number="formData.churchTaxRate">
+        <option :value="0">Keine Kirchensteuer</option>
+        <option :value="0.08">8% (Bayern, Baden-Württemberg)</option>
+        <option :value="0.09">9% (Alle anderen Bundesländer)</option>
+      </select>
+    </div>
+
   </form>
 </template>
 
@@ -103,6 +119,19 @@ form {
 .form-group {
   margin-bottom: 1rem;
   width: 100%;
+}
+
+.form-group-inline {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.form-group-inline label {
+  margin-left: 0.5rem;
+  margin-bottom: 0;
+  font-weight: bold;
 }
 
 label {

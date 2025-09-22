@@ -27,7 +27,8 @@ export class CalculationService {
   // KdVR-Beitragssätze (gesetzliche Krankenversicherung der Rentner)
   const KdVR_KV_BEITRAGSSATZ = 0.146; // Allgemeiner Beitragssatz KdVR
   const KdVR_ZUSATZBEITRAG = 0.016; // Durchschnittlicher Zusatzbeitrag KdVR
-  const KdVR_PV_BEITRAGSSATZ = 0.034; // Pflegeversicherung (kinderlos, ab 23)
+  const PV_BASE_BEITRAGSSATZ = 0.034; // Pflegeversicherung (kinderlos, ab 23)
+  const PV_CHILDREN_BEITRAGSSATZ = 0.028; // Pflegeversicherung (mit Kindern)
 
     // Vereinfachte Einkommensteuertabelle (monatlich)
     // Dies ist eine stark vereinfachte, illustrative Tabelle. (Unverändert)
@@ -78,26 +79,6 @@ export class CalculationService {
       { year: 2039, percentage: 0.99 },
       { year: 2040, percentage: 1.00 },
     ];
-
-    // Kirchensteuersätze pro Bundesland (vereinfacht)
-    const KIRCHENSTEUER_SATZ_PRO_BUNDESLAND: { [key: string]: number } = {
-      'Baden-Württemberg': 0.08, // 8%
-      'Bayern': 0.08, // 8%
-      'Berlin': 0.09, // 9%
-      'Brandenburg': 0.09, // 9%
-      'Bremen': 0.09, // 9%
-      'Hamburg': 0.09, // 9%
-      'Hessen': 0.09, // 9%
-      'Mecklenburg-Vorpommern': 0.09, // 9%
-      'Niedersachsen': 0.09, // 9%
-      'Nordrhein-Westfalen': 0.09, // 9%
-      'Rheinland-Pfalz': 0.09, // 9%
-      'Saarland': 0.09, // 9%
-      'Sachsen': 0.09, // 9%
-      'Sachsen-Anhalt': 0.09, // 9%
-      'Schleswig-Holstein': 0.09, // 9%
-      'Thüringen': 0.09, // 9%
-    }; // 8% in BY/BW, 9% sonst
 
     // 1. Regelaltersgrenze berechnen (vereinfacht)
     // Für Geburtsjahrgänge ab 1964 ist die Regelaltersgrenze 67 Jahre.
@@ -190,11 +171,14 @@ export class CalculationService {
   const fullKVRate = KdVR_KV_BEITRAGSSATZ + KdVR_ZUSATZBEITRAG;
   // Rentner zahlt nur die Hälfte, die andere Hälfte zahlt die Rentenkasse
   const kvContribution = grossPension * (fullKVRate / 2);
-  const pvContribution = grossPension * KdVR_PV_BEITRAGSSATZ;
+
+  let pvContributionRate = input.hasChildren ? PV_CHILDREN_BEITRAGSSATZ : PV_BASE_BEITRAGSSATZ;
+  const pvContribution = grossPension * pvContributionRate;
 
 
   // Besteuerungsanteil: Nur dieser Teil der Rente ist steuerpflichtig (individuell)
-  let taxablePension = grossPension * individualBesteuerungsanteil;
+  // KV- und PV-Beiträge sind steuerlich absetzbar
+  let taxablePension = (grossPension - kvContribution - pvContribution) * individualBesteuerungsanteil;
 
       // Steuerberechnung nach §32a EStG 2025
       const zvE = Math.max(0, taxablePension * 12);
@@ -219,8 +203,13 @@ export class CalculationService {
       // Steuer wieder auf Monat umrechnen
       tax = Math.max(0, tax / 12);
 
-  // Netto: Bruttorente minus KV, PV, Steuer
-  const netPension = grossPension - kvContribution - pvContribution - tax;
+  let churchTax = 0;
+  if (input.churchTaxRate > 0) {
+    churchTax = tax * input.churchTaxRate;
+  }
+
+  // Netto: Bruttorente minus KV, PV, Steuer, Kirchensteuer
+  const netPension = grossPension - kvContribution - pvContribution - tax - churchTax;
 
       // Amortisationszeit: Wie lange dauert es, bis sich der frühere Renteneintritt "auszahlt"?
       // Berechnung: Differenz der Netto-Rente zum Standard-Szenario, geteilt durch monatlichen Verlust, ergibt Monate bis "Break-Even"
@@ -231,14 +220,9 @@ export class CalculationService {
       }
       if (monthsEarly > 0 && netStandard !== null) {
         const monthlyLoss = netStandard - netPension;
-        console.log('DEBUG: netPension:', netPension);
-        console.log('DEBUG: netStandard:', netStandard);
-        console.log('DEBUG: monthsEarly:', monthsEarly);
-        console.log('DEBUG: monthlyLoss:', monthlyLoss);
         const minLossThreshold = 1; // Minimum monthly loss for meaningful amortisation
         if (Math.abs(monthlyLoss) > minLossThreshold) {
           breakEvenMonths = (netPension * monthsEarly) / Math.abs(monthlyLoss);
-          console.log('DEBUG: breakEvenMonths:', breakEvenMonths);
         } else {
           breakEvenMonths = Infinity;
         }
@@ -255,6 +239,7 @@ export class CalculationService {
         pvContribution: parseFloat(pvContribution.toFixed(2)),
         kvContribution: parseFloat(kvContribution.toFixed(2)),
         tax: parseFloat(tax.toFixed(2)),
+        churchTax: parseFloat(churchTax.toFixed(2)),
         netPension: parseFloat(netPension.toFixed(2)),
         breakEvenAge: parseFloat(breakEvenAge.toFixed(1)),
         netDifferenceToStandard: 0, // Placeholder, will be calculated after the loop

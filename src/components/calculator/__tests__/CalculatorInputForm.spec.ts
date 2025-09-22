@@ -24,11 +24,8 @@ describe('CalculatorInputForm', () => {
 
     expect(getByLabelText('Geburtstag:')).toBeTruthy();
     expect(getByLabelText('Voraussichtliche Altersrente (monatlich in €):')).toBeTruthy();
-    expect(getByLabelText('Bundesland:')).toBeTruthy();
-    expect(getByLabelText('Kirchensteuerpflichtig')).toBeTruthy();
-    expect(getByLabelText('Versichertenstatus:')).toBeTruthy();
-    expect(getByLabelText('Gesetzlich (GKV)')).toBeTruthy();
-    expect(getByLabelText('Privat (PKV)')).toBeTruthy();
+    expect(getByLabelText('Kinder vorhanden?')).toBeTruthy();
+    expect(getByLabelText('Kirchensteuer:')).toBeTruthy();
   });
 
   it('updates formData when input values change', async () => {

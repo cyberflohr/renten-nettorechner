@@ -3,6 +3,8 @@ export interface UserInput {
   expectedPension: number;
   currentPensionEntitlement: number; // New: Bislang erreichte Rentenanwartschaft
   statementDate: string; // New: Date of the pension statement (YYYY-MM-DD)
+  hasChildren: boolean;
+  churchTaxRate: number;
 }
 
 export interface CalculationResult {
@@ -13,6 +15,7 @@ export interface CalculationResult {
   pvContribution: number;
   kvContribution: number;
   tax: number;
+  churchTax: number;
   netPension: number;
   breakEvenAge: number;
   netDifferenceToStandard: number; // New: Net difference to standard retirement (0 months early)
