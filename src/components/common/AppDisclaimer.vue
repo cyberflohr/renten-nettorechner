@@ -5,6 +5,10 @@
       Es ersetzt keine professionelle Beratung durch Rentenversicherungsträger oder Finanzexperten.
       Alle Angaben ohne Gewähr.
     </p>
+    <p>
+      Berechnungen und Datenspeicherung erfolgen ausschließlich in Ihrem Browser.
+      Es findet keinerlei Analyse-Tracking statt. Ihre persönlichen Daten sind sicher und verlassen Ihren Browser nicht.
+    </p>
   </div>
 </template>
 
