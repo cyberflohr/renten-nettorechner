@@ -15,6 +15,7 @@ defineProps<Props>();
     <table>
       <thead>
         <tr>
+          <th>Rentendatum</th>
           <th>Monate früher</th>
           <th>Brutto-rente</th>
           <th>Frührenten-abschlag</th>
@@ -30,6 +31,7 @@ defineProps<Props>();
       </thead>
       <tbody>
         <tr v-for="(result, index) in results" :key="index">
+          <td data-label="Rentendatum">{{ result.retirementDate }}</td>
           <td data-label="Monate früher">{{ result.monthsEarly }}</td>
           <td data-label="Brutto-rente">{{ formatCurrency(result.grossPension) }}</td>
           <td data-label="Frührenten-abschlag">{{ formatCurrency(result.deductionEarlyRetirement) }}</td>

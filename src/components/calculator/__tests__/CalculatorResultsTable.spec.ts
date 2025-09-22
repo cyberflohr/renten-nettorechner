@@ -10,6 +10,7 @@ describe('CalculatorResultsTable', () => {
 
   const mockResults: CalculationResult[] = [
     {
+      retirementDate: '01.01.2030',
       monthsEarly: 0,
       grossPension: 2000,
       deductionEarlyRetirement: 0,
@@ -23,6 +24,7 @@ describe('CalculatorResultsTable', () => {
       taxationPercentage: 84,
     },
     {
+      retirementDate: '01.01.2028',
       monthsEarly: 24,
       grossPension: 1856,
       deductionEarlyRetirement: 144,

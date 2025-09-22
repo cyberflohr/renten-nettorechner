@@ -12,6 +12,13 @@ export class CalculationService {
 
     const allResults: CalculationResult[] = []; // Use a temporary array to store all results
 
+    const formatDate = (date: Date) => {
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}.${month}.${year}`;
+    };
+
     // --- Annahmen für die Berechnung (vereinfacht) ---
     // Diese Werte müssten in einer echten Anwendung aus aktuellen Tabellen kommen.
     const RENTENPUNKTWERT = 37.60; // Wert eines Rentenpunktes in € (Stand 2023 West)
@@ -124,6 +131,21 @@ export class CalculationService {
   let netStandard: number | null = null;
   for (const monthsEarly of monthsEarlyScenarios) {
 
+      const birthDate = new Date(input.birthday);
+      const sixtySeventhBirthday = new Date(
+        birthDate.getFullYear() + regularRetirementAge,
+        birthDate.getMonth(),
+        birthDate.getDate()
+      );
+      const regularRetirementDate = new Date(
+        sixtySeventhBirthday.getFullYear(),
+        sixtySeventhBirthday.getMonth() + 1,
+        1
+      );
+      const retirementDate = new Date(regularRetirementDate.getTime());
+      retirementDate.setMonth(retirementDate.getMonth() - monthsEarly);
+      const formattedRetirementDate = formatDate(retirementDate);
+
       let grossPension = baseGrossPension;
       let deductionEarlyRetirement = 0;
 
@@ -150,8 +172,6 @@ export class CalculationService {
         deductionEarlyRetirement = grossPension * (ABSCHLAG_PRO_MONAT * monthsEarly);
         grossPension -= deductionEarlyRetirement;
         const statementDate = new Date(input.statementDate);
-        const birthDate = new Date(input.birthday);
-        const regularRetirementDate = new Date(birthDate.getFullYear() + regularRetirementAge, birthDate.getMonth(), birthDate.getDate());
         const monthsToRetirement = Math.max(1, (regularRetirementDate.getFullYear() - statementDate.getFullYear()) * 12 + (regularRetirementDate.getMonth() - statementDate.getMonth()));
         const totalExpectedRentenpunkte = input.expectedPension / RENTENPUNKTWERT;
         // Anwartschaft als Eurobetrag eingeben, intern in Rentenpunkte umrechnen
@@ -228,6 +248,7 @@ export class CalculationService {
   const breakEvenAge = breakEvenMonths === Infinity ? Infinity : actualRetirementAge + (breakEvenMonths / 12);
 
       allResults.push({
+        retirementDate: formattedRetirementDate,
         monthsEarly,
         grossPension: parseFloat(grossPension.toFixed(2)),
         deductionEarlyRetirement: parseFloat(deductionEarlyRetirement.toFixed(2)),

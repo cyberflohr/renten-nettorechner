@@ -6,6 +6,7 @@ export interface UserInput {
 }
 
 export interface CalculationResult {
+  retirementDate: string; // New: Retirement start date
   monthsEarly: number;
   grossPension: number;
   deductionEarlyRetirement: number;
