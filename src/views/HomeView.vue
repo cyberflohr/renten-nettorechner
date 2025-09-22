@@ -83,7 +83,8 @@ onMounted(() => {
 <style scoped>
 #app-layout {
   max-width: 960px;
-  margin: 0 auto;
+  margin-left: 0;
+  margin-right: auto;
   padding: 2rem;
   font-family: sans-serif;
 }
