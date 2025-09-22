@@ -1,30 +1,12 @@
 <script setup lang="ts">
 import type { CalculationResult } from '@/types';
+import { formatCurrency, formatPercentage } from '@/utils/formatters';
 
 interface Props {
   results: CalculationResult[];
 }
 
-const props = defineProps<Props>();
-
-// Helper to format numbers as currency
-const formatCurrency = (value: number) => {
-  return new Intl.NumberFormat('de-DE', {
-    style: 'currency',
-    currency: 'EUR',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(value);
-};
-
-// Helper to format percentage (for deduction)
-const formatPercentage = (value: number) => {
-  return new Intl.NumberFormat('de-DE', {
-    style: 'percent',
-    minimumFractionDigits: 1,
-    maximumFractionDigits: 1,
-  }).format(value);
-};
+defineProps<Props>();
 </script>
 
 <template>
@@ -34,31 +16,31 @@ const formatPercentage = (value: number) => {
       <thead>
         <tr>
           <th>Monate früher</th>
-          <th>Brutto</th>
-          <th>Abzug (vorzeitige Rente)</th>
+          <th>Brutto-rente</th>
+          <th>Frührenten-abschlag</th>
           <th>PV-Beitrag</th>
           <th>KV-Beitrag</th>
-          <th>Zu versteuerndes Einkommen</th>
-          <th>Ertrags-anteil (%)</th>
+          <th>Zu versteuerndes-Einkommen</th>
+          <th>Besteuerungs-anteil</th>
           <th>Steuer</th>
-          <th>Netto</th>
+          <th>Netto-rente</th>
           <th>Break-Even Alter</th>
-          <th>Netto-Differenz zu Standard</th>
+          <th>Netto-differenz</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(result, index) in props.results" :key="index">
+        <tr v-for="(result, index) in results" :key="index">
           <td data-label="Monate früher">{{ result.monthsEarly }}</td>
-          <td data-label="Brutto">{{ formatCurrency(result.grossPension) }}</td>
-          <td data-label="Abzug (vorzeitige Rente)">{{ formatCurrency(result.deductionEarlyRetirement) }}</td>
+          <td data-label="Brutto-rente">{{ formatCurrency(result.grossPension) }}</td>
+          <td data-label="Frührenten-abschlag">{{ formatCurrency(result.deductionEarlyRetirement) }}</td>
           <td data-label="PV-Beitrag">{{ formatCurrency(result.pvContribution) }}</td>
           <td data-label="KV-Beitrag">{{ formatCurrency(result.kvContribution) }}</td>
-          <td data-label="Zu versteuerndes Einkommen">{{ formatCurrency(result.taxableIncome) }}</td>
-          <td data-label="Ertrags-anteil (%)">{{ result.taxationPercentage }} %</td>
+          <td data-label="Zu versteuerndes-Einkommen">{{ formatCurrency(result.taxableIncome) }}</td>
+          <td data-label="Besteuerungs-anteil">{{ result.taxationPercentage }} %</td>
           <td data-label="Steuer">{{ formatCurrency(result.tax) }}</td>
-          <td data-label="Netto">{{ formatCurrency(result.netPension) }}</td>
+          <td data-label="Netto-rente">{{ formatCurrency(result.netPension) }}</td>
           <td data-label="Break-Even Alter">{{ result.breakEvenAge }}</td>
-          <td data-label="Netto-Differenz zu Standard">{{ formatCurrency(result.netDifferenceToStandard) }}</td>
+          <td data-label="Netto-differenz">{{ formatCurrency(result.netDifferenceToStandard) }}</td>
         </tr>
       </tbody>
     </table>

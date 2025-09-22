@@ -76,13 +76,13 @@ const handleInputChange = () => {
     </div>
 
     <div class="form-group">
-      <label for="expectedPension">Voraussichtliche Altersrente (monatlich in €):</label>
-      <input type="number" id="expectedPension" v-model.number="formData.expectedPension" required min="0" />
+      <label for="currentPensionEntitlement">Bislang erreichte Rentenanwartschaft (monatlich in €):</label>
+      <input type="number" id="currentPensionEntitlement" v-model.number="formData.currentPensionEntitlement" required min="0" />
     </div>
 
     <div class="form-group">
-      <label for="currentPensionEntitlement">Bislang erreichte Rentenanwartschaft (monatlich in €):</label>
-      <input type="number" id="currentPensionEntitlement" v-model.number="formData.currentPensionEntitlement" required min="0" />
+      <label for="expectedPension">Voraussichtliche Altersrente (monatlich in €):</label>
+      <input type="number" id="expectedPension" v-model.number="formData.expectedPension" required min="0" />
     </div>
 
     <div class="form-group">
