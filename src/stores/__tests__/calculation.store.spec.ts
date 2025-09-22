@@ -28,6 +28,8 @@ describe('Calculation Store', () => {
       expectedPension: 1000,
       currentPensionEntitlement: 900,
       statementDate: '2023-01-01',
+      hasChildren: false,
+      churchTaxRate: 0,
     };
 
     const mockResults: CalculationResult[] = [{
@@ -38,6 +40,7 @@ describe('Calculation Store', () => {
       pvContribution: 0,
       kvContribution: 0,
       tax: 0,
+      churchTax: 0,
       netPension: 1000,
       breakEvenAge: 67,
       netDifferenceToStandard: 0,
@@ -62,6 +65,8 @@ describe('Calculation Store', () => {
       expectedPension: 1000,
       currentPensionEntitlement: 900,
       statementDate: '2023-01-01',
+      hasChildren: false,
+      churchTaxRate: 0,
     };
     store.userInput = input;
 
@@ -73,6 +78,7 @@ describe('Calculation Store', () => {
       pvContribution: 0,
       kvContribution: 0,
       tax: 0,
+      churchTax: 0,
       netPension: 1000,
       breakEvenAge: 67,
       netDifferenceToStandard: 0,
@@ -97,6 +103,8 @@ describe('Calculation Store', () => {
       expectedPension: 1000,
       currentPensionEntitlement: 900,
       statementDate: '2023-01-01',
+      hasChildren: false,
+      churchTaxRate: 0,
     };
     store.userInput = input;
 
@@ -114,7 +122,7 @@ describe('Calculation Store', () => {
   });
 
   it('clearResults should clear results and error', () => {
-    store.results = [{ retirementDate: '01.01.2030', monthsEarly: 0, grossPension: 100, deductionEarlyRetirement: 0, pvContribution: 0, kvContribution: 0, tax: 0, netPension: 100, breakEvenAge: 67, netDifferenceToStandard: 0, taxableIncome: 85, taxationPercentage: 84 }];
+    store.results = [{ retirementDate: '01.01.2030', monthsEarly: 0, grossPension: 100, deductionEarlyRetirement: 0, pvContribution: 0, kvContribution: 0, tax: 0, churchTax: 0, netPension: 100, breakEvenAge: 67, netDifferenceToStandard: 0, taxableIncome: 85, taxationPercentage: 84 }];
     store.error = 'Some error';
 
     store.clearResults();

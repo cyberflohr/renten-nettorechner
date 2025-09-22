@@ -17,6 +17,7 @@ describe('CalculatorResultsTable', () => {
       pvContribution: 34,
       kvContribution: 162,
       tax: 125.3,
+      churchTax: 0,
       netPension: 1678.7,
       breakEvenAge: 67,
       netDifferenceToStandard: 0, // Standard case
@@ -31,6 +32,7 @@ describe('CalculatorResultsTable', () => {
       pvContribution: 31.55,
       kvContribution: 150.34,
       tax: 107.12,
+      churchTax: 0,
       netPension: 1567,
       breakEvenAge: 71,
       netDifferenceToStandard: -111.7, // 1567 - 1678.7
