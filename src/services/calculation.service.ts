@@ -246,7 +246,7 @@ export class CalculationService {
         breakEvenAge: parseFloat(breakEvenAge.toFixed(1)),
         netDifferenceToStandard: 0, // Placeholder, will be calculated after the loop
         taxableIncome: parseFloat(taxablePension.toFixed(2)),
-        taxationPercentage: parseFloat((individualBesteuerungsanteil * 100).toFixed(1)),
+        taxationPercentage: individualBesteuerungsanteil,
       });
     }
 

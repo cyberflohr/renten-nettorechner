@@ -39,7 +39,7 @@ defineProps<Props>();
           <td data-label="PV-Beitrag">{{ formatCurrency(result.pvContribution) }}</td>
           <td data-label="KV-Beitrag">{{ formatCurrency(result.kvContribution) }}</td>
           <td data-label="Zu versteuerndes-Einkommen">{{ formatCurrency(result.taxableIncome) }}</td>
-          <td data-label="Besteuerungs-anteil">{{ result.taxationPercentage }} %</td>
+          <td data-label="Besteuerungs-anteil">{{ formatPercentage(result.taxationPercentage) }}</td>
           <td data-label="Steuer">{{ formatCurrency(result.tax) }}</td>
           <td data-label="Kirchensteuer">{{ formatCurrency(result.churchTax) }}</td>
           <td data-label="Netto-rente">{{ formatCurrency(result.netPension) }}</td>
